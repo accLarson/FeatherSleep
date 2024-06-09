@@ -1,0 +1,4 @@
+name: FeatherSleep
+version: '${project.version}'
+main: dev.zerek.feathersleep.FeatherSleep
+api-version: '1.20'
