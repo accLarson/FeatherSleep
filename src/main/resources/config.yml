@@ -7,6 +7,7 @@ Sleeping-calculation-settings:
   ignore-afk: true # Uses EssentialsX AFK status
   ignore-vanished: true # Uses a metadata check on players that most vanish plugins comply with.
   ignore-bypass: true # feather.sleep.bypass
+  max-speed-multiplier: 64
 
 night-timing-in-ticks:
   # At what tick will FeatherSleep consider the start and end of the night cycle.

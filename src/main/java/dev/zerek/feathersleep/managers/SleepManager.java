@@ -1,7 +1,7 @@
 package dev.zerek.feathersleep.managers;
 
 import dev.zerek.feathersleep.FeatherSleep;
-import org.bukkit.World;
+import dev.zerek.feathersleep.tasks.AccelerateNightTask;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,27 +14,29 @@ public class SleepManager {
     private final FeatherSleep plugin;
     private final Set<Player> sleepingPlayers = new HashSet<>();
     private final Set<Player> afkPlayers = new HashSet<>();
-    
-    Long additionalTimeValue = 0L;
+    private final BukkitRunnable accelerateNightTask;
+
+    private final ConfigManager config;
+
+    Long additionalTime = 0L;
 
     public SleepManager(FeatherSleep plugin) {
         this.plugin = plugin;
+        this.accelerateNightTask = new AccelerateNightTask(plugin);
+        this.config = plugin.getConfigManager();
     }
 
-    private final BukkitRunnable accelerateNight = new BukkitRunnable() {
-        @Override
-        public void run() {
-            World world = plugin.getServer().getWorlds().get(0);
-            world.setFullTime(world.getFullTime() + additionalTimeValue);
-        }
-    };
-
-    public void calculate() {
+    public void recalculate() {
+        //kill condition
         if (this.getSleepingCount() == 0) {
-            
+            this.additionalTime = 0L;
+            this.accelerateNightTask.cancel();
+            return;
         }
 
-        int percentSleeping = this.getPercentageSleeping(true,true,true);
+        int percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+
+        this.additionalTime = (long) Math.max(2,Math.pow(percentSleeping,2)/100);
     }
 
     public int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {
@@ -71,5 +73,9 @@ public class SleepManager {
 
     public int getSleepingCount() {
         return this.sleepingPlayers.size();
+    }
+
+    public long getAdditionalTime() {
+        return this.additionalTime;
     }
 }

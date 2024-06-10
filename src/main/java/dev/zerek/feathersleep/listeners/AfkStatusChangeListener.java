@@ -17,6 +17,6 @@ public class AfkStatusChangeListener implements Listener {
     @EventHandler
     public void onAfkStatusChange(AfkStatusChangeEvent event) {
         plugin.getSleepManager().storePlayerAfkStatus(event.getAffected().getBase(),event.getValue());
-        plugin.getSleepManager().calculate();
+        plugin.getSleepManager().recalculate();
     }
 }
