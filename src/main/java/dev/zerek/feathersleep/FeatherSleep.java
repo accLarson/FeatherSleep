@@ -12,8 +12,10 @@ public final class FeatherSleep extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.sleepManager = new SleepManager(this);
+        this.saveDefaultConfig();
+
         this.configManager = new ConfigManager(this);
+        this.sleepManager = new SleepManager(this);
 
         this.getServer().getPluginManager().registerEvents(new AfkStatusChangeListener(this),this);
         this.getServer().getPluginManager().registerEvents(new PlayerBedEnterListener(this),this);

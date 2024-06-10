@@ -15,28 +15,35 @@ public class SleepManager {
     private final Set<Player> sleepingPlayers = new HashSet<>();
     private final Set<Player> afkPlayers = new HashSet<>();
     private final BukkitRunnable accelerateNightTask;
-
     private final ConfigManager config;
-
-    Long additionalTime = 0L;
+    private Long additionalTime = 0L;
+    private int taskId = -1;
 
     public SleepManager(FeatherSleep plugin) {
         this.plugin = plugin;
-        this.accelerateNightTask = new AccelerateNightTask(plugin);
         this.config = plugin.getConfigManager();
+        this.accelerateNightTask = new AccelerateNightTask(plugin);
     }
 
     public void recalculate() {
         //kill condition
         if (this.getSleepingCount() == 0) {
+            plugin.getLogger().info("0 players are sleeping");
             this.additionalTime = 0L;
-            this.accelerateNightTask.cancel();
-            return;
+            if (this.taskId > 0) {
+                plugin.getLogger().info("running accelerator but no one is sleeping - stopping.");
+                plugin.getServer().getScheduler().cancelTask(taskId);
+            }
         }
-
-        int percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
-
-        this.additionalTime = (long) Math.max(2,Math.pow(percentSleeping,2)/100);
+        else {
+            plugin.getLogger().info(sleepingPlayers.size() + " players are sleeping");
+            int percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+            this.additionalTime = (long) Math.max(2,Math.pow(percentSleeping,2)/100);
+            if (this.taskId == -1) {
+                plugin.getLogger().info("at least 1 is sleeping - Starting");
+                this.taskId = accelerateNightTask.runTaskTimer(plugin,0L,1L).getTaskId();
+            }
+        }
     }
 
     public int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {

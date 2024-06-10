@@ -1,0 +1,16 @@
+# ======================================================================================================================
+# FeatherSleep Plugin Configuration                                                      Written by: Zerek / zerek.dev
+# ======================================================================================================================
+
+Sleeping-calculation-settings:
+  # Which players should be excluded from the totla player count when calculating the percentage of sleeping players.
+  ignore-afk: true # Uses EssentialsX AFK status
+  ignore-vanished: true # Uses a metadata check on players that most vanish plugins comply with.
+  ignore-bypass: true # feather.sleep.bypass
+  max-speed-multiplier: 64
+
+night-timing-in-ticks:
+  # At what tick will FeatherSleep consider the start and end of the night cycle.
+  start: 13000 # Vanilla/default value 13000
+  end: 23000 # Vanilla/default value 23000
+

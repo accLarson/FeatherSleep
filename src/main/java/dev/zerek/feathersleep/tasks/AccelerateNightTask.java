@@ -16,6 +16,7 @@ public class AccelerateNightTask extends BukkitRunnable {
     public void run() {
         World world = plugin.getServer().getWorlds().get(0);
         world.setFullTime(world.getFullTime() + plugin.getSleepManager().getAdditionalTime());
+        plugin.getLogger().info("Increasing Speed! - " + plugin.getSleepManager().getAdditionalTime() + "x");
 
     }
 }
