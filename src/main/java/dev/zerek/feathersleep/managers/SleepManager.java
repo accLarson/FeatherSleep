@@ -14,7 +14,7 @@ public class SleepManager {
     private final FeatherSleep plugin;
     private final Set<Player> sleepingPlayers = new HashSet<>();
     private final Set<Player> afkPlayers = new HashSet<>();
-    private final BukkitRunnable accelerateNightTask;
+    private BukkitRunnable accelerateNightTask;
     private final ConfigManager config;
     private Long additionalTime = 0L;
     private int taskId = -1;
@@ -32,12 +32,16 @@ public class SleepManager {
             this.additionalTime = 0L;
             if (this.taskId > 0) {
                 plugin.getLogger().info("running accelerator but no one is sleeping - stopping.");
-                plugin.getServer().getScheduler().cancelTask(taskId);
+                this.accelerateNightTask.cancel();
+                this.accelerateNightTask = new AccelerateNightTask(plugin);
+//                plugin.getServer().getScheduler().cancelTasks(plugin);
+                this.taskId = -1;
             }
         }
         else {
             plugin.getLogger().info(sleepingPlayers.size() + " players are sleeping");
             int percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+
             this.additionalTime = (long) Math.max(2,Math.pow(percentSleeping,2)/100);
             if (this.taskId == -1) {
                 plugin.getLogger().info("at least 1 is sleeping - Starting");

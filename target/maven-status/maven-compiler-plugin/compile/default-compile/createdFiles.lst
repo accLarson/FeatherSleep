@@ -3,6 +3,7 @@ dev\zerek\feathersleep\listeners\PlayerQuitListener.class
 dev\zerek\feathersleep\listeners\AfkStatusChangeListener.class
 dev\zerek\feathersleep\tasks\AccelerateNightTask.class
 dev\zerek\feathersleep\FeatherSleep.class
+dev\zerek\feathersleep\listeners\PlayerDeepSleepListener.class
 dev\zerek\feathersleep\listeners\PlayerJoinListener.class
 dev\zerek\feathersleep\managers\ConfigManager.class
 dev\zerek\feathersleep\managers\SleepManager.class
