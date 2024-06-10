@@ -20,6 +20,6 @@ public class PlayerBedEnterListener implements Listener {
         if (event.getBedEnterResult() != PlayerBedEnterEvent.BedEnterResult.OK) return;
 
         plugin.getSleepManager().storeSleepingPlayerStatus(event.getPlayer(), true);
-        plugin.getSleepManager().recalculate();
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getSleepManager().recalculate(), 1L);
     }
 }

@@ -22,7 +22,6 @@ public final class FeatherSleep extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PlayerBedLeaveListener(this),this);
         this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this),this);
         this.getServer().getPluginManager().registerEvents(new PlayerQuitListener(this),this);
-        this.getServer().getPluginManager().registerEvents(new PlayerDeepSleepListener(this),this);
     }
 
     @Override

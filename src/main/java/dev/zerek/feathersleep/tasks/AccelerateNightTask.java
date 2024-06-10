@@ -19,11 +19,15 @@ public class AccelerateNightTask extends BukkitRunnable {
     @Override
     public void run() {
         long additionalTime = plugin.getSleepManager().getAdditionalTime();
-        long percentSleeping = plugin.getSleepManager().getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+        long sleepingCount = plugin.getSleepManager().getSleepingCount();
+        int percentSleeping = plugin.getSleepManager().getPercentSleeping();
 
         World world = plugin.getServer().getWorlds().get(0);
         world.setFullTime(world.getFullTime() + plugin.getSleepManager().getAdditionalTime());
 
-        plugin.getServer().getOnlinePlayers().forEach(p -> p.sendActionBar(Component.text(percentSleeping + "% sleeping - " + additionalTime + "x speed")));
+
+
+        plugin.getServer().getOnlinePlayers().forEach(p -> p.sendActionBar(Component.text(sleepingCount + " sleeping (" + percentSleeping + "%) - " + additionalTime + "x speed")));
     }
+
 }

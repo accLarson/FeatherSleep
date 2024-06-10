@@ -11,7 +11,6 @@ public class ConfigManager {
     private boolean ignoreAfk;
     private boolean ignoreVanished;
     private boolean ignoreBypass;
-    private double maxSpeed;
     private long nightStart;
     private long nightEnd;
     public ConfigManager(FeatherSleep plugin) {

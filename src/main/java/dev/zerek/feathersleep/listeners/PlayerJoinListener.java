@@ -15,6 +15,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        plugin.getSleepManager().recalculate();
+
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getSleepManager().recalculate(), 1L);
     }
 }

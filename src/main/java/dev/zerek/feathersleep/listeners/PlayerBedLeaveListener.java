@@ -17,6 +17,6 @@ public class PlayerBedLeaveListener implements Listener {
     public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
 
         plugin.getSleepManager().storeSleepingPlayerStatus(event.getPlayer(),false);
-        plugin.getSleepManager().recalculate();
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getSleepManager().recalculate(), 1L);
     }
 }

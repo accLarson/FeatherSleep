@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SleepManager {
 
@@ -17,6 +18,7 @@ public class SleepManager {
     private BukkitRunnable accelerateNightTask;
     private final ConfigManager config;
     private Long additionalTime = 0L;
+    private int percentSleeping = 0;
     private int taskId = -1;
 
     public SleepManager(FeatherSleep plugin) {
@@ -28,23 +30,18 @@ public class SleepManager {
     public void recalculate() {
         //kill condition
         if (this.getSleepingCount() == 0) {
-            plugin.getLogger().info("0 players are sleeping");
             this.additionalTime = 0L;
             if (this.taskId > 0) {
-                plugin.getLogger().info("running accelerator but no one is sleeping - stopping.");
-                this.accelerateNightTask.cancel();
+                plugin.getServer().getScheduler().cancelTasks(plugin);
                 this.accelerateNightTask = new AccelerateNightTask(plugin);
-//                plugin.getServer().getScheduler().cancelTasks(plugin);
                 this.taskId = -1;
             }
         }
         else {
-            plugin.getLogger().info(sleepingPlayers.size() + " players are sleeping");
-            int percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+            this.percentSleeping = this.getPercentageSleeping(config.isIgnoreAfk(), config.isIgnoreVanished(), config.isIgnoreBypass());
+            this.additionalTime = (long) Math.max(2,Math.pow(this.percentSleeping,2)/100);
 
-            this.additionalTime = (long) Math.max(2,Math.pow(percentSleeping,2)/100);
             if (this.taskId == -1) {
-                plugin.getLogger().info("at least 1 is sleeping - Starting");
                 this.taskId = accelerateNightTask.runTaskTimer(plugin,0L,1L).getTaskId();
             }
         }
@@ -52,16 +49,20 @@ public class SleepManager {
 
     public int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {
         Set<Player> Players = new HashSet<>(plugin.getServer().getOnlinePlayers());
+        plugin.getLogger().info("(pre-filter) onlinePlayers: " + Players.size() + " -- " + Players.stream().map(Player::getName).collect(Collectors.joining(", ")));
 
         if (ignoreAfk) Players.removeAll(afkPlayers);
         if (ignoreVanished) Players.removeIf(this::isVanished);
         if (ignoreBypass) Players.removeIf(player -> player.hasPermission("feather.sleep.bypass"));
+
+        plugin.getLogger().info("(post-filter) onlinePlayers: " + Players.size() + " -- " + Players.stream().map(Player::getName).collect(Collectors.joining(", ")));
 
         float totalCount = Players.size();
         float sleepingCount = sleepingPlayers.size();
 
         // Avoids division by zero or calculating if no one is sleeping
         if (totalCount == 0 || sleepingCount == 0) return 0;
+
         return Math.round((sleepingCount / totalCount) * 100);
     }
 
@@ -84,6 +85,10 @@ public class SleepManager {
 
     public int getSleepingCount() {
         return this.sleepingPlayers.size();
+    }
+
+    public int getPercentSleeping() {
+        return this.percentSleeping;
     }
 
     public long getAdditionalTime() {
