@@ -11,8 +11,7 @@ public class ConfigManager {
     private boolean ignoreAfk;
     private boolean ignoreVanished;
     private boolean ignoreBypass;
-    private long nightStart;
-    private long nightEnd;
+
     public ConfigManager(FeatherSleep plugin) {
         this.plugin = plugin;
         this.loadConfig();
@@ -23,8 +22,6 @@ public class ConfigManager {
         this.ignoreVanished = plugin.getConfig().getBoolean("Sleeping-calculation-settings.ignore-vanished");
         this.ignoreBypass = plugin.getConfig().getBoolean("Sleeping-calculation-settings.ignore-bypass");
 
-        this.nightStart = plugin.getConfig().getLong("night-timing-in-ticks.start");
-        this.nightEnd = plugin.getConfig().getLong("night-timing-in-ticks.end");
     }
 
     public boolean isIgnoreAfk() {
@@ -35,11 +32,5 @@ public class ConfigManager {
     }
     public boolean isIgnoreBypass() {
         return ignoreBypass;
-    }
-    public long getNightStart() {
-        return nightStart;
-    }
-    public long getNightEnd() {
-        return nightEnd;
     }
 }

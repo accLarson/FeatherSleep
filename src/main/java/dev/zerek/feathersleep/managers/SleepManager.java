@@ -2,13 +2,13 @@ package dev.zerek.feathersleep.managers;
 
 import dev.zerek.feathersleep.FeatherSleep;
 import dev.zerek.feathersleep.tasks.AccelerateNightTask;
+import dev.zerek.feathersleep.tasks.InformTask;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SleepManager {
 
@@ -16,6 +16,7 @@ public class SleepManager {
     private final Set<Player> sleepingPlayers = new HashSet<>();
     private final Set<Player> afkPlayers = new HashSet<>();
     private BukkitRunnable accelerateNightTask;
+    private BukkitRunnable informTask;
     private final ConfigManager config;
     private Long additionalTime = 0L;
     private int percentSleeping = 0;
@@ -25,6 +26,7 @@ public class SleepManager {
         this.plugin = plugin;
         this.config = plugin.getConfigManager();
         this.accelerateNightTask = new AccelerateNightTask(plugin);
+        this.informTask = new InformTask(plugin);
     }
 
     public void recalculate() {
@@ -34,6 +36,7 @@ public class SleepManager {
             if (this.taskId > 0) {
                 plugin.getServer().getScheduler().cancelTasks(plugin);
                 this.accelerateNightTask = new AccelerateNightTask(plugin);
+                this.informTask = new InformTask(plugin);
                 this.taskId = -1;
             }
         }
@@ -43,19 +46,18 @@ public class SleepManager {
 
             if (this.taskId == -1) {
                 this.taskId = accelerateNightTask.runTaskTimer(plugin,0L,1L).getTaskId();
+                informTask.runTaskTimer(plugin,0L,5L);
             }
         }
     }
 
-    public int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {
+    private int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {
         Set<Player> Players = new HashSet<>(plugin.getServer().getOnlinePlayers());
-        plugin.getLogger().info("(pre-filter) onlinePlayers: " + Players.size() + " -- " + Players.stream().map(Player::getName).collect(Collectors.joining(", ")));
 
         if (ignoreAfk) Players.removeAll(afkPlayers);
         if (ignoreVanished) Players.removeIf(this::isVanished);
         if (ignoreBypass) Players.removeIf(player -> player.hasPermission("feather.sleep.bypass"));
 
-        plugin.getLogger().info("(post-filter) onlinePlayers: " + Players.size() + " -- " + Players.stream().map(Player::getName).collect(Collectors.joining(", ")));
 
         float totalCount = Players.size();
         float sleepingCount = sleepingPlayers.size();
@@ -83,14 +85,15 @@ public class SleepManager {
         return false;
     }
 
+    public Set<Player> getSleepingPlayers() {
+        return this.sleepingPlayers;
+    }
     public int getSleepingCount() {
         return this.sleepingPlayers.size();
     }
-
     public int getPercentSleeping() {
         return this.percentSleeping;
     }
-
     public long getAdditionalTime() {
         return this.additionalTime;
     }

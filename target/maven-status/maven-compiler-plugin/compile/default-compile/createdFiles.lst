@@ -7,3 +7,4 @@ dev\zerek\feathersleep\listeners\PlayerJoinListener.class
 dev\zerek\feathersleep\managers\ConfigManager.class
 dev\zerek\feathersleep\managers\SleepManager.class
 dev\zerek\feathersleep\listeners\PlayerBedLeaveListener.class
+dev\zerek\feathersleep\tasks\InformTask.class

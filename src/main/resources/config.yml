@@ -8,8 +8,3 @@ Sleeping-calculation-settings:
   ignore-vanished: true # Uses a metadata check on players that most vanish plugins comply with.
   ignore-bypass: true # feather.sleep.bypass
 
-night-timing-in-ticks:
-  # At what tick will FeatherSleep consider the start and end of the night cycle.
-  start: 13000 # Vanilla/default value 13000
-  end: 23000 # Vanilla/default value 23000
-
