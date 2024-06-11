@@ -20,6 +20,7 @@ public class SleepManager {
     private final ConfigManager config;
     private Long additionalTime = 0L;
     private int percentSleeping = 0;
+    private int relevantOnline = 0;
     private int taskId = -1;
 
     public SleepManager(FeatherSleep plugin) {
@@ -59,13 +60,13 @@ public class SleepManager {
         if (ignoreBypass) Players.removeIf(player -> player.hasPermission("feather.sleep.bypass"));
 
 
-        float totalCount = Players.size();
+        this.relevantOnline = Players.size();
         float sleepingCount = sleepingPlayers.size();
 
         // Avoids division by zero or calculating if no one is sleeping
-        if (totalCount == 0 || sleepingCount == 0) return 0;
+        if (relevantOnline == 0 || sleepingCount == 0) return 0;
 
-        return Math.round((sleepingCount / totalCount) * 100);
+        return Math.round((sleepingCount / relevantOnline) * 100);
     }
 
     public void storeSleepingPlayerStatus(Player player, boolean sleeping) {
@@ -96,5 +97,8 @@ public class SleepManager {
     }
     public long getAdditionalTime() {
         return this.additionalTime;
+    }
+    public int getRelevantOnline() {
+        return this.relevantOnline;
     }
 }
