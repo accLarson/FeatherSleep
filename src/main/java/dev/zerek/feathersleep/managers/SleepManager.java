@@ -15,12 +15,12 @@ public class SleepManager {
     private final FeatherSleep plugin;
     private final Set<Player> sleepingPlayers = new HashSet<>();
     private final Set<Player> afkPlayers = new HashSet<>();
+    private Set<Player> relevantOnline = new HashSet<>();
     private BukkitRunnable accelerateNightTask;
     private BukkitRunnable informTask;
     private final ConfigManager config;
     private Long additionalTime = 0L;
     private int percentSleeping = 0;
-    private int relevantOnline = 0;
     private int taskId = -1;
 
     public SleepManager(FeatherSleep plugin) {
@@ -60,13 +60,13 @@ public class SleepManager {
         if (ignoreBypass) Players.removeIf(player -> player.hasPermission("feather.sleep.bypass"));
 
 
-        this.relevantOnline = Players.size();
+        this.relevantOnline = Players;
         float sleepingCount = sleepingPlayers.size();
 
         // Avoids division by zero or calculating if no one is sleeping
-        if (relevantOnline == 0 || sleepingCount == 0) return 0;
+        if (relevantOnline.isEmpty() || sleepingCount == 0) return 0;
 
-        return Math.round((sleepingCount / relevantOnline) * 100);
+        return Math.round((sleepingCount / relevantOnline.size()) * 100);
     }
 
     public void storeSleepingPlayerStatus(Player player, boolean sleeping) {
@@ -89,6 +89,9 @@ public class SleepManager {
     public Set<Player> getSleepingPlayers() {
         return this.sleepingPlayers;
     }
+    public Set<Player> getRelevantOnline() {
+        return this.relevantOnline;
+    }
     public int getSleepingCount() {
         return this.sleepingPlayers.size();
     }
@@ -98,7 +101,5 @@ public class SleepManager {
     public long getAdditionalTime() {
         return this.additionalTime;
     }
-    public int getRelevantOnline() {
-        return this.relevantOnline;
-    }
+
 }

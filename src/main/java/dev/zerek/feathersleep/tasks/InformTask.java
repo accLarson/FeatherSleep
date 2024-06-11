@@ -18,7 +18,7 @@ public class InformTask extends BukkitRunnable {
 
         long additionalTime = plugin.getSleepManager().getAdditionalTime();
         long sleepingCount = plugin.getSleepManager().getSleepingCount();
-        int relevantOnline = plugin.getSleepManager().getRelevantOnline();
+        int relevantOnline = plugin.getSleepManager().getRelevantOnline().size();
         String time = parseTime(plugin.getServer().getWorlds().get(0).getTime());
 
         plugin.getServer().getOnlinePlayers().forEach(p -> p.sendActionBar(Component.text(sleepingCount + "/" + relevantOnline + " sleeping - " + additionalTime + "x speed | " + time)));
