@@ -8,3 +8,5 @@ Sleeping-calculation-settings:
   ignore-vanished: true # Uses a metadata check on players that most vanish plugins comply with.
   ignore-bypass: true # feather.sleep.bypass
 
+wakeup-message: "<gold>Eat, Sleep, Fortnite, Repeat."
+

@@ -11,6 +11,7 @@ public class ConfigManager {
     private boolean ignoreAfk;
     private boolean ignoreVanished;
     private boolean ignoreBypass;
+    private String wakeUpMessage;
 
     public ConfigManager(FeatherSleep plugin) {
         this.plugin = plugin;
@@ -21,6 +22,7 @@ public class ConfigManager {
         this.ignoreAfk = plugin.getConfig().getBoolean("Sleeping-calculation-settings.ignore-afk");
         this.ignoreVanished = plugin.getConfig().getBoolean("Sleeping-calculation-settings.ignore-vanished");
         this.ignoreBypass = plugin.getConfig().getBoolean("Sleeping-calculation-settings.ignore-bypass");
+        this.wakeUpMessage = plugin.getConfig().getString("wakeup-message");
 
     }
 
@@ -32,5 +34,8 @@ public class ConfigManager {
     }
     public boolean isIgnoreBypass() {
         return ignoreBypass;
+    }
+    public String getWakeUpMessage() {
+        return wakeUpMessage;
     }
 }
