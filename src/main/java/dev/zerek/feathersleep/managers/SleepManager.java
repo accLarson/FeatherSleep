@@ -55,7 +55,12 @@ public class SleepManager {
     private int getPercentageSleeping(boolean ignoreAfk, boolean ignoreVanished, boolean ignoreBypass) {
         Set<Player> Players = new HashSet<>(plugin.getServer().getOnlinePlayers());
 
-        if (ignoreAfk) Players.removeAll(afkPlayers);
+        // Only remove AFK players who aren't sleeping
+        if (ignoreAfk) {
+            Set<Player> nonSleepingAfk = new HashSet<>(afkPlayers);
+            nonSleepingAfk.removeAll(sleepingPlayers);
+            Players.removeAll(nonSleepingAfk);
+        }
         if (ignoreVanished) Players.removeIf(this::isVanished);
         if (ignoreBypass) Players.removeIf(player -> player.hasPermission("feather.sleep.bypass"));
 
