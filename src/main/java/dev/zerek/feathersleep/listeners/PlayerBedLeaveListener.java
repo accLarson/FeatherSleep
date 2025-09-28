@@ -1,6 +1,7 @@
 package dev.zerek.feathersleep.listeners;
 
 import dev.zerek.feathersleep.FeatherSleep;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

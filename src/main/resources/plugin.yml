@@ -1,4 +1,7 @@
 name: FeatherSleep
 version: '${project.version}'
 main: dev.zerek.feathersleep.FeatherSleep
-api-version: '1.20'
+api-version: '1.21'
+authors: [Zerek]
+description: A lightweight sleep plugin
+softdepend: [Essentials]

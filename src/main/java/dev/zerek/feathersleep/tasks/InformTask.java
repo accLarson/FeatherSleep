@@ -2,7 +2,6 @@ package dev.zerek.feathersleep.tasks;
 
 import dev.zerek.feathersleep.FeatherSleep;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InformTask extends BukkitRunnable {
