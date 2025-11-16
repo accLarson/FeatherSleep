@@ -112,3 +112,27 @@ buildNumber.properties
 # Common working directory
 run/
 /.codebuddy/summary.md
+/.codebuddy/db/lucene/_i.fdm
+/.codebuddy/db/lucene/_i.fdt
+/.codebuddy/db/lucene/_i.fdx
+/.codebuddy/db/lucene/_i.fnm
+/.codebuddy/db/lucene/_i.kdd
+/.codebuddy/db/lucene/_i.kdi
+/.codebuddy/db/lucene/_i.kdm
+/.codebuddy/db/lucene/_i.nvd
+/.codebuddy/db/lucene/_i.nvm
+/.codebuddy/db/lucene/_i.si
+/.codebuddy/db/lucene/_i_Lucene90_0.dvd
+/.codebuddy/db/lucene/_i_Lucene90_0.dvm
+/.codebuddy/db/lucene/_i_Lucene99_0.doc
+/.codebuddy/db/lucene/_i_Lucene99_0.pos
+/.codebuddy/db/lucene/_i_Lucene99_0.tim
+/.codebuddy/db/lucene/_i_Lucene99_0.tip
+/.codebuddy/db/lucene/_i_Lucene99_0.tmd
+/.codebuddy/db/lucene/_i_Lucene99HnswVectorsFormat_0.vec
+/.codebuddy/db/lucene/_i_Lucene99HnswVectorsFormat_0.vem
+/.codebuddy/db/lucene/_i_Lucene99HnswVectorsFormat_0.vemf
+/.codebuddy/db/lucene/_i_Lucene99HnswVectorsFormat_0.vex
+/.codebuddy/db/lucene/segments_k
+/.codebuddy/db/lucene/version.txt
+/.codebuddy/db/lucene/write.lock
