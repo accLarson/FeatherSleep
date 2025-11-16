@@ -47,7 +47,7 @@ public class SleepManager {
 
             if (this.taskId == -1) {
                 this.taskId = accelerateNightTask.runTaskTimer(plugin,0L,1L).getTaskId();
-                informTask.runTaskTimer(plugin,0L,5L);
+                informTask.runTaskTimer(plugin,0L,30L);
             }
         }
     }
